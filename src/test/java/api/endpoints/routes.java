@@ -2,7 +2,7 @@ package api.endpoints;
 
 public class routes {
 
-    public static String base_url="petstore.swagger.io/v2";
+    public static String base_url="https://petstore.swagger.io/v2";
 
     //user_model
 
