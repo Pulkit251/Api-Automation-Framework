@@ -4,6 +4,8 @@ import api.endpoints.userEndPoints;
 import api.payloads.User;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,6 +13,7 @@ public class UserTests {
     Faker faker;
     User payload;
     userEndPoints ep;
+    public Logger logger;
 
     @BeforeClass
     public void setup(){
@@ -26,11 +29,13 @@ public class UserTests {
         payload.setUsername(faker.name().username());
         payload.setPassword(faker.internet().password());
 //        System.out.println(payload.getId());
+        logger = LogManager.getLogger(this.getClass());
     }
 
 
     @Test(priority = 1)
     public void createUserTest(){
+        logger.info("Posting a user");
         Response response = userEndPoints.createUser(payload);
         String email = response.jsonPath().getString("message");
         System.out.println(email);

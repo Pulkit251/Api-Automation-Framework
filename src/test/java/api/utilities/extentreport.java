@@ -14,14 +14,15 @@ import org.testng.ITestResult;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class extentreport implements ITestListener {
+public class extentreport implements ITestListener {
     ExtentSparkReporter sparkReporter;
     ExtentReports extent;
     ExtentTest test;
 
     String reportName;
 
-    public void onStart(ITestContext context){
+    @Override
+    public void onStart(ITestContext iTestContext) {
         String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         reportName = "Test-report-" + timestamp + ".html";
 
@@ -34,6 +35,11 @@ public abstract class extentreport implements ITestListener {
         extent.attachReporter(sparkReporter);
     }
 
+    @Override
+    public void onTestStart(ITestResult iTestResult) {
+
+    }
+
     public void onTestSuccess(ITestResult result){
         test = extent.createTest(result.getName());
         test.assignCategory(result.getMethod().getGroups());
@@ -41,7 +47,8 @@ public abstract class extentreport implements ITestListener {
         test.log(Status.PASS,"Test Passes");
     }
 
-    public void onTestFail(ITestResult result){
+    @Override
+    public void onTestFailure(ITestResult result){
         test = extent.createTest(result.getName());
         test.assignCategory(result.getMethod().getGroups());
         test.createNode(result.getName());
@@ -49,7 +56,19 @@ public abstract class extentreport implements ITestListener {
         test.log(Status.FAIL,result.getThrowable().getMessage());
     }
 
-    public void onFinish(ITestResult context){
+    @Override
+    public void onTestSkipped(ITestResult iTestResult) {
+
+    }
+
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
+
+    }
+
+
+    @Override
+    public void onFinish(ITestContext iTestContext) {
         extent.flush();
     }
 }
