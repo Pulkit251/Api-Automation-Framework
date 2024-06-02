@@ -1,0 +1,8 @@
+Abstract class and Interface
+
+
+If a class is defined as abstract, on extending or Implementing that class, either use the method of the abstract class
+ or use the abstrct keyword in the extended class too
+
+
+If an interface is defined, then use the methods of the interface class, i.e it is mandatory to use the methods

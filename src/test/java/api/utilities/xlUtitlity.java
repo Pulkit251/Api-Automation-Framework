@@ -3,6 +3,7 @@ package api.utilities;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import java.io.*;
 
@@ -10,11 +11,11 @@ public class xlUtitlity {
 
     public FileInputStream fi;
     public FileOutputStream fo;
-    public HSSFWorkbook workbook;
-    public HSSFSheet sheet;
-    public HSSFRow row;
-    public HSSFCell cell;
-    public HSSFCellStyle style;
+    public XSSFWorkbook workbook;
+    public XSSFSheet sheet;
+    public XSSFRow row;
+    public XSSFCell cell;
+    public XSSFCellStyle style;
 
 
     String path;
@@ -25,7 +26,7 @@ public class xlUtitlity {
 
     public int getRowCount(String sheetName) throws IOException {
         fi = new FileInputStream(path);
-        workbook = new HSSFWorkbook(fi);
+        workbook = new XSSFWorkbook(fi);
         sheet = workbook.getSheet(sheetName);
         int rowCount = sheet.getLastRowNum();
         workbook.close();
@@ -35,7 +36,7 @@ public class xlUtitlity {
 
     public int getCellCount(String sheetName,int rownum) throws IOException {
         fi = new FileInputStream(path);
-        workbook = new HSSFWorkbook(fi);
+        workbook = new XSSFWorkbook(fi);
         sheet = workbook.getSheet(sheetName);
         row = sheet.getRow(rownum);
         int cellCount = row.getLastCellNum();
@@ -47,7 +48,7 @@ public class xlUtitlity {
 
     public String getCellData(String sheetName,int rownum, int colnum) throws IOException {
         fi = new FileInputStream(path);
-        workbook = new HSSFWorkbook(fi);
+        workbook = new XSSFWorkbook(fi);
         sheet = workbook.getSheet(sheetName);
         row = sheet.getRow(rownum);
         cell = row.getCell(colnum);
@@ -65,13 +66,13 @@ public class xlUtitlity {
     public void SetCellData(String sheetName, int rownum, int colnum,String data) throws IOException {
         File xlFile = new File(path);
         if(!xlFile.exists()){
-            workbook = new HSSFWorkbook();
+            workbook = new XSSFWorkbook();
             fo = new FileOutputStream(path);
             workbook.write(fo);
         }
 
         fi = new FileInputStream(path);
-        workbook = new HSSFWorkbook(fi);
+        workbook = new XSSFWorkbook(fi);
 
         if(workbook.getSheetIndex(sheetName) == -1){
             workbook.createSheet();
